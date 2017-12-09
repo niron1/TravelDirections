@@ -1,0 +1,25 @@
+.autoCompleteBox {
+  border:1px solid #524a4a;
+}
+
+.autoCompleteParent {
+  width:500px;
+  div {
+    background-color: white;
+    z-index: 100;
+    position: relative;
+  }
+}
+
+:global {
+
+  .autocompleteItem div {
+    background-color:#eee;
+    cursor: pointer;
+    
+  }
+  .autocompleteItemActive div {
+    background-color:#ddd;
+  } 
+
+}
