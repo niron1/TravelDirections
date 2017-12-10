@@ -1,6 +1,4 @@
-.autoCompleteBox {
-  border:1px solid #524a4a;
-}
+
 
 .autoCompleteParent {
   width:500px;
@@ -10,7 +8,9 @@
     position: relative;
   }
 }
-
+.Appintro {
+  font-size: large;
+}
 :global {
 
   .autocompleteItem div {

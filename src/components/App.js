@@ -8,7 +8,6 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        
         <Grid>
           <Row center="xs">
             <Col>
@@ -17,9 +16,6 @@ class App extends Component {
                   <img src={logo} className={styles.Applogo} alt="logo" />
                   <h1 className={styles.Apptitle}>Travel directions app</h1>
                 </header>
-                <p className={styles.Appintro}>
-                  Type source and destination addresses to get travel directions
-                </p>
                 {this.props.children}
               </div>          
             </Col>
