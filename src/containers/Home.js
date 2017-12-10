@@ -1,4 +1,5 @@
 import React from 'react';
+import {PureComponent} from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {connect} from 'react-redux';
@@ -9,7 +10,7 @@ import * as actionCreators from '../actions';
 import {GetDirections} from '../api';
 import {Directions} from '../components/Directions';
 
-class HomeScreen extends React.Component  {
+class HomeScreen extends PureComponent  {
 
   isGoogleLoaded = false;
 
@@ -39,7 +40,7 @@ class HomeScreen extends React.Component  {
       autocompleteItemActive: 'autocompleteItemActive',
       autocompleteItem:       'autocompleteItem',
     }
-    if (this.props.directions == null )
+    if (!this.props.spinner && !this.props.directions)
       return (<div>
           <p className={styles.Appintro}>
             Type source and destination addresses to get travel directions
@@ -51,16 +52,6 @@ class HomeScreen extends React.Component  {
               onLoad={ this.handleGoogleLoaded.bind(this) }
             />
 
-           <TextField
-            hintText="Google api key"
-            fullWidth={true}
-            value={this.props.googleAPIKey}
-            floatingLabelText="Google api key"
-            name="google-api-key"
-            label="google-api-key"
-            disabled={true}
-             />
-            <br />
 
             <TextField
             className="source-field"
@@ -102,7 +93,7 @@ class HomeScreen extends React.Component  {
           </form>
       </div>)
       else 
-        return (<Directions weather={this.props.weather} data={this.props.directions.data.routes[0].legs[0]}/>);
+        return (<Directions spinner={this.props.spinner} handleBackToMain={this.props.handleBackToMain} weather={this.props.weather} data={this.props.directions && this.props.directions.data.routes[0].legs[0]}/>);
     }
 }
 
@@ -110,6 +101,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleChangeSource: (value)=>dispatch(actionCreators.changeSource(value)),
   handleChangeDestination: (value)=>dispatch(actionCreators.changeDestination(value)),
   handleGetDirections: (...args)=>dispatch(GetDirections(...args) ),
+  handleBackToMain: ()=>dispatch(actionCreators.resetDirections()),
 });
 
 const mapStateToProps = (state) => ({
@@ -119,6 +111,7 @@ const mapStateToProps = (state) => ({
   destinationAddress:state.mapReducer.destinationAddress,
   directions:state.mapReducer.directions,
   weather:state.mapReducer.weather,
+  spinner:state.mapReducer.spinner,
 })
 
 const statefulHomescreen = connect(mapStateToProps,mapDispatchToProps)(HomeScreen); 

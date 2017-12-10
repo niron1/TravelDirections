@@ -7,6 +7,7 @@ var preloadedState = {
   destinationAddress:'haifa',
   directions: null,
   weather: null,
+  spinner:false,
 }
 
 export default function mapReducer(state=preloadedState, action) {
@@ -24,12 +25,19 @@ export default function mapReducer(state=preloadedState, action) {
       return state;
 
     case ActionTypes.GET_WEATHER_SUCCESS:
-    console.log("got weather",action.response);
       return {...state, weather:action.response}
 
     case ActionTypes.GET_WEATHER_ERROR:
       return state;
-      
+    
+    case ActionTypes.RESET_DIRECTIONS:
+      return {...state, directions:null};
+
+    case ActionTypes.SPINNER_ON:
+      return {...state, spinner: true}
+ 
+    case ActionTypes.SPINNER_OFF:
+      return {...state, spinner: false}
       
     default:
       return state;

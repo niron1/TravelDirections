@@ -11,3 +11,8 @@ export const changeDestination = (value) =>
   type: types.CHANGE_DESTINATION,
   value: value
 })
+
+export const resetDirections = () =>
+({
+  type: types.RESET_DIRECTIONS
+})
