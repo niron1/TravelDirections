@@ -25,29 +25,32 @@ const GetSpinner = () => (<div className={styles.glowwormLoader}>
   </div>
 </div>);
 
-export const Directions = ({data,weather,handleBackToMain,spinner}) => (
+export const Directions = ({data,weather,handleBackToMain,spinner,error,errorMessage}) => (
     <div>
 
-        { spinner ? GetSpinner() : null}  
-        
-        <h1>Weather {weather!=null?"in "+weather.data.name:null}</h1>
-        <div className={styles.weatherWrapper}>
-          {weather!=null? 
-            ( <ReactWeatherDisplay currentCondition={calcCurrentCondition(weather.data.main.temp)} currentTemperature={weather.data.main.temp} width={200} height={100} />)
-            : 'Loading...'}
-        </div>
+        { spinner ? GetSpinner() : null}
+        {error ?(<div>No results</div>):
+          (<div>
+            <h1>Weather {weather!=null?"in "+weather.data.name:null}</h1>
+            <div className={styles.weatherWrapper}>
+              {weather!=null?
+                ( <ReactWeatherDisplay currentCondition={calcCurrentCondition(weather.data.main.temp)} currentTemperature={weather.data.main.temp} width={200} height={100} />)
+                : 'Loading...'}
+            </div>
 
-        {data!=null?[
-          (<h1>Directions</h1>),
-            data.steps.map( (step,index) => 
-              (<div key={index} className={styles.directionsWrapper}>
-                <div className={styles.directionsItem} dangerouslySetInnerHTML={{__html: (index+1)+'.&nbsp'+step.html_instructions}}>
-                </div>
-              </div>)
-              )
-            ]:null}
-          
-        <RaisedButton onClick={handleBackToMain} label="Back" primary={true}  />            
+            {data!=null && data.steps?[
+              (<h1>Directions</h1>),
+                data.steps.map( (step,index) =>
+                  (<div key={index} className={styles.directionsWrapper}>
+                    <div className={styles.directionsItem} dangerouslySetInnerHTML={{__html: (index+1)+'.&nbsp'+step.html_instructions}}>
+                    </div>
+                  </div>)
+                  )
+                ]:null}
+              </div>
+            )
+        }
+        <RaisedButton onClick={handleBackToMain} label="Back" primary={true}  />
     </div>
-  
+
   );

@@ -8,6 +8,8 @@ var preloadedState = {
   directions: null,
   weather: null,
   spinner:false,
+  error:false,
+  errorMessage:'',
 }
 
 export default function mapReducer(state=preloadedState, action) {
@@ -22,23 +24,24 @@ export default function mapReducer(state=preloadedState, action) {
       return {...state, directions:action.response}
 
     case ActionTypes.GET_DIRECTIONS_ERROR:
-      return state;
+    console.log("Got action",action);
+      return {...state, error:true, errorMessage: action.msg, directions:"no results"}
 
     case ActionTypes.GET_WEATHER_SUCCESS:
       return {...state, weather:action.response}
 
     case ActionTypes.GET_WEATHER_ERROR:
       return state;
-    
+
     case ActionTypes.RESET_DIRECTIONS:
-      return {...state, directions:null};
+      return {...state, directions:null, error:false};
 
     case ActionTypes.SPINNER_ON:
       return {...state, spinner: true}
- 
+
     case ActionTypes.SPINNER_OFF:
       return {...state, spinner: false}
-      
+
     default:
       return state;
   }

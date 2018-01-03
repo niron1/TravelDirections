@@ -23,7 +23,7 @@ class HomeScreen extends PureComponent  {
     this.setState({isGoogleLoaded:true})
   }
 
-  render() { 
+  render() {
     const sourceInputProps = {
       value: this.props.sourceAddress,
       onChange: (sourceAddress) => this.props.handleChangeSource(sourceAddress),
@@ -64,7 +64,7 @@ class HomeScreen extends PureComponent  {
 
             <div className={styles.autoCompleteParent}>
               {this.state.isGoogleLoaded?(
-              <PlacesAutocomplete       
+              <PlacesAutocomplete
                 classNames={cssClasses}
                 inputProps={sourceInputProps} />):null}
             </div>
@@ -81,19 +81,19 @@ class HomeScreen extends PureComponent  {
 
             <div className={styles.autoCompleteParent}>
               {this.state.isGoogleLoaded?(
-              <PlacesAutocomplete       
+              <PlacesAutocomplete
                 classNames={cssClasses}
                 inputProps={destinationInputProps} />):null}
             </div>
             <br/>
 
-            <RaisedButton label="Get Directions" primary={true} 
+            <RaisedButton label="Get Directions" primary={true}
               onClick={ ()=>this.props.handleGetDirections(this.props.googleAPIKey, this.props.sourceAddress,this.props.destinationAddress, this.props.weatherAPIKey) }/>
 
           </form>
       </div>)
-      else 
-        return (<Directions spinner={this.props.spinner} handleBackToMain={this.props.handleBackToMain} weather={this.props.weather} data={this.props.directions && this.props.directions.data.routes[0].legs[0]}/>);
+      else
+        return (<Directions error={this.props.error} errorMessage={this.props.errorMessage} spinner={this.props.spinner} handleBackToMain={this.props.handleBackToMain} weather={this.props.weather} data={this.props.directions && this.props.directions.data && this.props.directions.data.routes[0].legs[0]}/>);
     }
 }
 
@@ -111,9 +111,10 @@ const mapStateToProps = (state) => ({
   destinationAddress:state.mapReducer.destinationAddress,
   directions:state.mapReducer.directions,
   weather:state.mapReducer.weather,
-  spinner:state.mapReducer.spinner,
+  error:state.mapReducer.error,
+  errorMessage:state.mapReducer.errorMessage,
 })
 
-const statefulHomescreen = connect(mapStateToProps,mapDispatchToProps)(HomeScreen); 
+const statefulHomescreen = connect(mapStateToProps,mapDispatchToProps)(HomeScreen);
 
 export default statefulHomescreen;
